@@ -1,0 +1,66 @@
+{% extends 'core/base.html' %}
+
+{% load static %}
+
+{% block title %} Home {% endblock %}
+
+{% block content %}
+    <div class="flex gap-3 overflow-y-hidden overflow-x-hidden hover:overflow-x-auto">
+        {% for course in courses %}
+            <a href="#{{ course }}" class="px-3 py-1 bg-{{ course.color }} rounded-md shadow-lg font-medium text-gray-50 whitespace-nowrap">{{ course.code }}</a>
+        {% endfor %}
+
+        {% for tag in tags %}
+            <a href="#{{ tag.name }}" class="px-3 py-1 bg-gray-50 text-gray-700 rounded-md shadow-lg whitespace-nowrap">{{ tag.name }}</a>
+        {% endfor %}
+    </div>
+
+    <div class="flex flex-wrap gap-3 overflow-y-auto">
+        {% for note in notes %}
+            <a href="#{{ note.title }}" class="flex flex-col rounded-xl overflow-hidden shadow-lg bg-gray-50 ">
+                {% if note.course %}
+                    <div class="px-3 py-1.5 bg-{{ note.course.color }}">
+                        <p class="font-medium text-gray-50">{{ note.course }}</p>
+                    </div>
+                {% endif %}
+                
+                <div class="flex flex-col p-4 gap-3 bg-gray-50">
+                    <div class="flex flex-col gap-1">
+                        <p class="font-semibold text-gray-700 text-2xl">{{ note.title }}</p>
+                        <p class="text-sm text-gray-500">by {{ note.created_by.first_name }} {{ note.created_by.last_name }}</p>
+                    </div>
+
+                    <div class="flex flex-col gap-3">
+                        {% for element in note.elements.all %}
+                            <p class="text-gray-700">{{ element.get_content }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="flex px-4 py-2 justify-between bg-gray-50 border-t-2 border-gray-200">
+                    <p class="text-gray-500">{{ note.modified_at }}</p>
+                    <div class="flex gap-3">
+                        <div class="flex gap-0.5 items-center">
+                            <img src="{% if request.user in note.likes.all %}{% static 'core/icons/thumbed_up.svg' %}{% else %}{% static 'core/icons/thumb_up.svg' %}{% endif %}" alt="thumb_up">
+                            <p class="text-sm {% if request.user in note.likes.all %}text-yellow-500 font-medium{% else %}text-gray-500{% endif %}">{{ note.likes.count }}</p>
+                        </div>
+                        <div class="flex gap-0.5 items-center">
+                            <img src="{% if request.user in note.dislikes.all %}{% static 'core/icons/thumbed_down.svg' %}{% else %}{% static 'core/icons/thumb_down.svg' %}{% endif %}" alt="thumb_down">
+                            <p class="text-sm {% if request.user in note.dislikes.all %}text-yellow-500 font-medium{% else %}text-gray-500{% endif %}">{{ note.dislikes.count }}</p>
+                        </div>
+                        <div class="flex gap-0.5 items-center">
+                            <img src="{% static 'core/icons/comment.svg' %}" alt="comment">
+                            <p class="text-sm text-gray-500">{{ note.tags.count }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex p-4 gap-3 bg-gray-50 border-t-2 border-gray-200 overflow-x-auto">
+                    {% for tag in note.tags.all %}
+                        <div class="rounded-md bg-gray-200 px-3 py-0.5 shadow text-gray-700 text-sm whitespace-nowrap">{{ tag.name }}</div>
+                    {% endfor %}
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+{% endblock %}
