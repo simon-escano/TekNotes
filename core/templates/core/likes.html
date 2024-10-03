@@ -7,17 +7,17 @@
 {% block content %}
     <div class="flex gap-3 overflow-y-hidden overflow-x-hidden hover:overflow-x-auto">
         {% for course in courses %}
-            <a href="#{{ course }}" class="px-3 py-1 bg-{{ course.color }} rounded-md shadow-lg font-medium text-gray-50 whitespace-nowrap">{{ course.code }}</a>
+            <a href="/search/?query={{ course.description }}" class="px-3 py-1 bg-{{ course.color }} rounded-md shadow-lg font-medium text-gray-50 whitespace-nowrap">{{ course.code }}</a>
         {% endfor %}
 
         {% for tag in tags %}
-            <a href="#{{ tag.name }}" class="px-3 py-1 bg-gray-50 text-gray-700 rounded-md shadow-lg whitespace-nowrap">{{ tag.name }}</a>
+            <a href="/search/?query={{ tag.name }}" class="px-3 py-1 bg-gray-50 text-gray-700 rounded-md shadow-lg whitespace-nowrap">{{ tag.name }}</a>
         {% endfor %}
     </div>
 
     <div class="flex flex-wrap gap-3 overflow-y-auto">
         {% for note in notes %}
-            <a href="#{{ note.title }}" class="flex flex-col rounded-xl overflow-hidden shadow-lg bg-gray-50 ">
+            <a href="#{{ note.title }}" class="flex flex-col rounded-xl overflow-hidden shadow-lg bg-gray-50 max-w-[450px]">
                 {% if note.course %}
                     <div class="px-3 py-1.5 bg-{{ note.course.color }}">
                         <p class="font-medium text-gray-50">{{ note.course }}</p>
@@ -31,9 +31,7 @@
                     </div>
 
                     <div class="flex flex-col gap-3">
-                        {% for element in note.elements.all %}
-                            <p class="text-gray-700">{{ element.get_content }}</p>
-                        {% endfor %}
+                        {{ note.content }}
                     </div>
                 </div>
 

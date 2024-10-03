@@ -34,6 +34,7 @@ class Tag(models.Model):
 
 class Note(models.Model):
     title = models.CharField(max_length=255)
+    content = models.TextField(max_length=255, blank=True)
     course = models.ForeignKey(Course, null=True, blank=True, on_delete=models.SET_NULL)
     created_by = models.ForeignKey(User, related_name='notes', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -44,20 +45,3 @@ class Note(models.Model):
 
     def __str__(self):
         return self.title
-    
-class Element(models.Model):
-    note = models.ForeignKey(Note, related_name='elements', on_delete=models.CASCADE)
-    order = models.PositiveIntegerField()
-
-    class Meta:
-        ordering = ['order']
-        unique_together = ['note', 'order']
-
-    def __str__(self):
-        return f'Element {self.order} of Note: {self.note.title}'
-    
-class TextElement(Element):
-    content = models.TextField()
-
-class FileElement(Element):
-    file_url = models.URLField(default='')

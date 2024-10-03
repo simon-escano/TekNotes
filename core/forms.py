@@ -21,13 +21,13 @@ class SignupForm(UserCreationForm):
         'placeholder': 'Username',
         'class': 'placeholder-gray-500 text-gray-700 bg-transparent border-none focus:outline-none flex-1'
     }))
-    first_name = forms.CharField(widget=forms.EmailInput(attrs={
+    first_name = forms.CharField(widget=forms.TextInput(attrs={
         'placeholder': 'First name',
-        'class': 'placeholder-gray-500 text-gray-700 bg-transparent border-none focus:outline-none flex-1'
+        'class': 'placeholder-gray-500 text-gray-700 bg-transparent border-none focus:outline-none w-full'
     }))
-    last_name = forms.CharField(widget=forms.EmailInput(attrs={
+    last_name = forms.CharField(widget=forms.TextInput(attrs={
         'placeholder': 'Last name',
-        'class': 'placeholder-gray-500 text-gray-700 bg-transparent border-none focus:outline-none flex-1'
+        'class': 'placeholder-gray-500 text-gray-700 bg-transparent border-none focus:outline-none w-full'
     }))
     email = forms.CharField(widget=forms.EmailInput(attrs={
         'placeholder': 'Email address',
